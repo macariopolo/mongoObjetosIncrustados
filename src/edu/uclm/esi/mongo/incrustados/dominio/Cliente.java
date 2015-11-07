@@ -91,7 +91,7 @@ public class Cliente {
 		Vector<Document> dLlamadas=new Vector<>();
 		for (Llamada llamada : llamadas)
 			dLlamadas.add(llamada.toDocument());
-		r.append("llamadas", java.util.Arrays.asList(dLlamadas));
+		r.append("llamadas", dLlamadas);
 		r.append("tarifa", tarifa.toDocument());
 		return r;
 	}

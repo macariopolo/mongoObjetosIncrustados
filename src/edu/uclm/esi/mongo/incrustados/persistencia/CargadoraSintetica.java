@@ -21,7 +21,7 @@ import edu.uclm.esi.mongo.incrustados.dominio.Llamada;
 public class CargadoraSintetica {
 
 public static void main(String[] args) throws IOException {
-	final int NUMERO_DE_CLIENTES = 10;
+	final int NUMERO_DE_CLIENTES = 90;
 	MongoClient mongoClient=new MongoClient("localhost", 27017);
 	
 	MongoDatabase db = mongoClient.getDatabase("telefonosIncrustados");
@@ -85,25 +85,19 @@ public static void main(String[] args) throws IOException {
 		Random dado=new Random();
 		for (int mes=5; mes<=10; mes++) {
 			for (int dia=1; dia<=30; dia++) {
-				for (int i=0; i<numClientes*3; i++) {
-					boolean llama=dado.nextBoolean();
-					if (!llama)
+				int numLlamadas=dado.nextInt(4);
+				for (int j=0; j<numLlamadas; j++) {
+					int n=dado.nextInt(numClientes);
+					String telefonoDestino="" + (600000000 + n);
+					if (c.getTelefono().equals(telefonoDestino))
 						continue;
-					int numLlamadas=dado.nextInt(4);
-					for (int j=0; j<numLlamadas; j++) {
-						int n=dado.nextInt(numClientes);
-						String telefonoDestino="" + (600000000 + n);
-						if (c.getTelefono().equals(telefonoDestino))
-							continue;
-						int duracion=dado.nextInt(600);
-						int year=2015;
-						int hora=dado.nextInt(24), minuto=dado.nextInt(60), segundo=dado.nextInt(60);
-						if (dado.nextFloat()<0.3)
-							telefonoDestino=favorito;
-						Llamada llamada=new Llamada(c.getTelefono(), telefonoDestino, duracion, year, mes, dia, hora, minuto, segundo);
-
-						c.addLlamada(llamada);
-					}
+					int duracion=dado.nextInt(600);
+					int year=2015;
+					int hora=dado.nextInt(24), minuto=dado.nextInt(60), segundo=dado.nextInt(60);
+					if (dado.nextFloat()<0.3)
+						telefonoDestino=favorito;
+					Llamada llamada=new Llamada(c.getTelefono(), telefonoDestino, duracion, year, mes, dia, hora, minuto, segundo);
+					c.addLlamada(llamada);
 				}
 			}
 		}
